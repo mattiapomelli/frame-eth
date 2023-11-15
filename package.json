@@ -20,6 +20,7 @@
     "generate": "yarn workspace @fe/contracts generate",
     "help": "yarn workspace @fe/contracts run help",
     "node": "yarn workspace @fe/contracts run node",
+    "chain": "yarn workspace @fe/contracts run node",
     "test": "yarn workspace @fe/contracts test",
     "verify": "yarn workspace @fe/contracts verify",
 
