@@ -1,46 +1,32 @@
 "use client";
 
-import { CHAINS, config } from "@/constants/config";
-import { env } from "@/env.mjs";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { httpBatchLink, loggerLink } from "@trpc/client";
+import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
 import { ThemeProvider } from "next-themes";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { WagmiConfig } from "wagmi";
-import { trpc } from "./_trpc/client";
 
-const Providers = ({ children }: { children: ReactNode }) => {
-  const [queryClient] = useState(
-    () => new QueryClient({ defaultOptions: { queries: { staleTime: 5000 } } }),
-  );
+import { CHAINS } from "@/config/chains";
+import { env } from "@/env.mjs";
 
-  const [trpcClient] = useState(() =>
-    trpc.createClient({
-      links: [
-        loggerLink({
-          enabled: () => true,
-        }),
-        httpBatchLink({
-          url: env.NEXT_PUBLIC_VERCEL_URL ? `${env.NEXT_PUBLIC_VERCEL_URL}/api` : `/api`,
-        }),
-      ],
-    }),
-  );
+const projectId = env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
 
-  return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        <QueryClientProvider client={queryClient}>
-          <WagmiConfig config={config}>
-            <RainbowKitProvider chains={CHAINS}>
-              <ThemeProvider>{children}</ThemeProvider>
-            </RainbowKitProvider>
-          </WagmiConfig>
-        </QueryClientProvider>
-      </QueryClientProvider>
-    </trpc.Provider>
-  );
+const metadata = {
+  name: "Web3Starter",
+  description: "Web3 Frontend Starter",
+  url: "http://localhost:3000",
+  // icons: ["http://localhost:3000/icon.png"],
 };
 
-export default Providers;
+const wagmiConfig = defaultWagmiConfig({ chains: CHAINS, projectId, metadata });
+
+createWeb3Modal({ wagmiConfig, projectId, chains: CHAINS });
+
+export function Providers({ children }: { children: ReactNode }) {
+  return (
+    <WagmiConfig config={wagmiConfig}>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {children}
+      </ThemeProvider>
+    </WagmiConfig>
+  );
+}
