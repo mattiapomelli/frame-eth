@@ -1,10 +1,10 @@
 import contractAddressesJson from "./addresses.json";
 
-import { LockAbi } from "@/config/abis/lock";
+import { StorageAbi } from "@/config/abis/storage";
 
 const contractAddresses = contractAddressesJson as Record<string, Record<number, `0x${string}`>>;
 
-export const getLockConfig = (chainId: number) => ({
-  address: contractAddresses["Lock"][chainId],
-  abi: LockAbi,
+export const getStorageConfig = (chainId: number) => ({
+  address: contractAddresses["Storage"][chainId],
+  abi: StorageAbi,
 });

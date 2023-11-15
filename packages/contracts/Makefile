@@ -10,3 +10,6 @@ deploy:
 
 withdraw:
 	npx hardhat run scripts/playground/withdraw.ts --network $(NETWORK)
+
+set-data:
+	npx hardhat run scripts/playground/set-data.ts --network $(NETWORK)

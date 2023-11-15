@@ -7,9 +7,9 @@ async function main() {
   console.log("Network:", network);
 
   // Get contract
-  const lock = await viem.getContractAt(
-    "Lock",
-    getDeploymentAddress(network, "Lock")
+  const storage = await viem.getContractAt(
+    "Storage",
+    getDeploymentAddress(network, "Storage")
   );
 
   // Upload to IPFS
@@ -22,7 +22,7 @@ async function main() {
   console.log("Data Uri: ", dataUri);
 
   // Set data
-  const tx = await lock.write.withdraw();
+  const tx = await storage.write.setData(["Message"]);
   console.log("Tx hash: ", tx);
 }
 

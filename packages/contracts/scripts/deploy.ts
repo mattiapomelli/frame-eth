@@ -5,19 +5,16 @@ import { verify } from "./utils/verify";
 import { setDeploymentAddress } from "../deployment/deployment-manager";
 
 task("deploy", "📰 Deploys a contract, saves the artifact and verifies it.")
-  .addParam("contract", "Name of the contract to deploy.", "Lock")
+  .addParam("contract", "Name of the contract to deploy.", "Storage")
   .addFlag("save", "Flag to indicate whether to save the contract or not")
   .addFlag("verify", "Flag to indicate whether to verify the contract or not")
   .setAction(async (args, { viem, run, network }) => {
-    const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-    const unlockTime = BigInt(currentTimestampInSeconds + 60);
-
-    const Contract = await viem.deployContract(args.contract, [unlockTime]);
+    const Contract = await viem.deployContract(args.contract, [""]);
     console.log(
       `📰 Contract ${Contract.address} deployed to ${network.name} successfully!`
     );
 
-    setDeploymentAddress(network.name, "Lock", Contract.address);
+    setDeploymentAddress(network.name, args.contract, Contract.address);
 
     const chainId = (await viem.getPublicClient()).chain.id;
 
@@ -26,6 +23,6 @@ task("deploy", "📰 Deploys a contract, saves the artifact and verifies it.")
     }
 
     if (args.verify) {
-      await verify(run, Contract.address, [unlockTime]);
+      await verify(run, Contract.address, [""]);
     }
   });
