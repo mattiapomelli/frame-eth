@@ -1,14 +1,10 @@
-import { hardhat, polygon, polygonMumbai } from "wagmi/chains";
+import contractAddressesJson from "./addresses.json";
 
-import { storageAbi } from "@/config/abis/storage";
+import { LockAbi } from "@/config/abis/lock";
 
-export const STORAGE_ADDRESS: Record<number, `0x${string}`> = {
-  [hardhat.id]: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
-  [polygonMumbai.id]: "0x",
-  [polygon.id]: "0x",
-};
+const contractAddresses = contractAddressesJson as Record<string, Record<number, `0x${string}`>>;
 
-export const getStorageConfig = (chainId: number) => ({
-  address: STORAGE_ADDRESS[chainId],
-  abi: storageAbi,
+export const getLockConfig = (chainId: number) => ({
+  address: contractAddresses["Lock"][chainId],
+  abi: LockAbi,
 });
