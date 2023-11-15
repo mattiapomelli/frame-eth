@@ -1,6 +1,6 @@
 "use client";
 
-import { useAddToHomescreen } from "@/hooks/use-add-to-home-screen";
+import { useAddToHomescreen } from "@/lib/hooks/use-add-to-home-screen";
 
 import { Button } from "./ui/button";
 import { Dialog } from "./ui/dialog";

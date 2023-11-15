@@ -12,7 +12,7 @@ interface ChainIconProps {
 
 const ChainIcon = ({ chain, className }: ChainIconProps) => {
   const Icon = CHAIN_ICON[chain.id];
-  return <Icon className={className} />;
+  return <Icon className={cn("h-4 w-4", className)} />;
 };
 
 export const ChainSwitch = () => {
@@ -26,7 +26,7 @@ export const ChainSwitch = () => {
           Unsupported network
         </Button>
       ) : (
-        <span className={cn(buttonVariants({ variant: "secondary" }), "px-4 gap-2")}>
+        <span className={cn(buttonVariants({ variant: "secondary" }), "gap-2 px-4")}>
           <ChainIcon chain={chain} className="h-4 w-4" />
           <span className="hidden sm:block">{chain?.name}</span>
         </span>
