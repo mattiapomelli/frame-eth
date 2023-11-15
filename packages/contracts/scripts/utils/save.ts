@@ -1,45 +1,75 @@
-import fs from 'fs'
-import path from 'path'
-import prettier from 'prettier'
-import { Abi } from 'viem'
+import fs from "fs";
+import path from "path";
+import prettier from "prettier";
+import { Abi } from "viem";
 
-export const save = async (chainId: number, address: string, abi: Abi) => {
-  const contractsDir = path.join(
+import slugify from "slugify";
+
+function getSlug(str: string) {
+  return slugify(str.replace(/[A-Z]/g, "-$&"), { lower: true });
+}
+
+export const save = async (
+  chainId: number,
+  contractName: string,
+  address: string,
+  abi: Abi
+) => {
+  // Update ABI
+  const abiFile = path.join(
     __dirname,
-    '..',
-    '..',
-    '..',
-    'web',
-    'src',
-    'constants',
-    'deployedContracts.ts'
-  )
+    "..",
+    "..",
+    "..",
+    "web",
+    "src",
+    "config",
+    "abis",
+    `${getSlug(contractName)}.ts`
+  );
 
-  if (!fs.existsSync(contractsDir)) fs.mkdirSync(contractsDir)
+  if (!fs.existsSync(abiFile)) {
+    fs.writeFileSync(abiFile, "");
+  }
 
   fs.writeFileSync(
-    path.join(contractsDir),
+    path.join(abiFile),
     await prettier.format(
-      `import { Abi } from "viem";
-      \n\n
-      interface Artifact {
-        [key: string]: {
-          address: \`0x\${string}\`;
-          abi: Abi;
-        };
-      }
-      \n\n
-      export const Contracts: Artifact = {
-        ${chainId}: {
-          address: "${address}",
-          abi: ${JSON.stringify(abi, null, 2)},
-        }
-      }`,
+      `export const ${contractName}Abi = ${JSON.stringify(
+        abi,
+        null,
+        2
+      )} as const;`,
       {
-        parser: 'typescript',
+        parser: "typescript",
       }
     )
-  )
+  );
 
-  console.log(`💾 Contract artifact has been saved to ${contractsDir}`)
-}
+  console.log(`💾 Contract abi has been saved to ${abiFile}`);
+
+  // Update address
+  const addressesFile = path.join(
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "web",
+    "src",
+    "config",
+    "addresses.json"
+  );
+
+  const file = fs.readFileSync(addressesFile).toString();
+  const contractAddresses = JSON.parse(file);
+
+  if (!contractAddresses[contractName]) {
+    contractAddresses[contractName] = {};
+  }
+  contractAddresses[contractName][chainId] = address;
+
+  fs.writeFileSync(
+    path.join(addressesFile),
+    JSON.stringify(contractAddresses, null, 2)
+  );
+};
