@@ -2,6 +2,8 @@ import { task } from "hardhat/config";
 import { save } from "./utils/save";
 import { verify } from "./utils/verify";
 
+import { setDeploymentAddress } from "../deployment/deployment-manager";
+
 task("deploy", "📰 Deploys a contract, saves the artifact and verifies it.")
   .addParam("contract", "Name of the contract to deploy.", "Lock")
   .addFlag("save", "Flag to indicate whether to save the contract or not")
@@ -15,9 +17,15 @@ task("deploy", "📰 Deploys a contract, saves the artifact and verifies it.")
       `📰 Contract ${Contract.address} deployed to ${network.name} successfully!`
     );
 
+    setDeploymentAddress(network.name, "Lock", Contract.address);
+
     const chainId = (await viem.getPublicClient()).chain.id;
 
-    args.save &&
-      (await save(chainId, args.contract, Contract.address, Contract.abi));
-    args.verify && (await verify(run, Contract.address, [unlockTime]));
+    if (args.save) {
+      await save(chainId, args.contract, Contract.address, Contract.abi);
+    }
+
+    if (args.verify) {
+      await verify(run, Contract.address, [unlockTime]);
+    }
   });

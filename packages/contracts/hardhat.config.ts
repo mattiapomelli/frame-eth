@@ -1,24 +1,34 @@
-import '@nomicfoundation/hardhat-toolbox-viem'
-import 'dotenv/config'
-import { HardhatUserConfig } from 'hardhat/config'
-import './scripts/deploy'
-import './scripts/generate'
+import "@nomicfoundation/hardhat-toolbox-viem";
+import "dotenv/config";
+import { HardhatUserConfig } from "hardhat/config";
+import "./scripts/deploy";
+import "./scripts/generate";
 
-const accounts = process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : []
+const mnemonic = process.env.MNEMONIC;
+if (!mnemonic) {
+  throw new Error("Please set your MNEMONIC in a .env file");
+}
+
+const accounts = {
+  mnemonic,
+  count: 100,
+};
 
 const config: HardhatUserConfig = {
-  defaultNetwork: 'localhost',
+  defaultNetwork: "localhost",
   networks: {
     hardhat: {
       chainId: 1337,
+      accounts,
     },
     localhost: {
-      url: 'http://127.0.0.1:8545',
+      url: "http://127.0.0.1:8545",
+      accounts,
     },
     mumbai: {
       url:
         process.env.POLYGON_MUMBAI_RPC_URL ||
-        'https://rpc-mumbai.maticvigil.com',
+        "https://rpc-mumbai.maticvigil.com",
       accounts,
     },
   },
@@ -27,10 +37,10 @@ const config: HardhatUserConfig = {
   },
   gasReporter: {
     enabled: true,
-    currency: 'USD',
+    currency: "USD",
   },
   solidity: {
-    version: '0.8.19',
+    version: "0.8.19",
     settings: {
       optimizer: {
         enabled: true,
@@ -39,10 +49,10 @@ const config: HardhatUserConfig = {
     },
   },
   paths: {
-    sources: './contracts',
-    tests: './test',
-    cache: './cache',
-    artifacts: './artifacts',
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./cache",
+    artifacts: "./artifacts",
   },
   mocha: {
     timeout: 20000,
@@ -50,6 +60,6 @@ const config: HardhatUserConfig = {
   sourcify: {
     enabled: true,
   },
-}
+};
 
-export default config
+export default config;
