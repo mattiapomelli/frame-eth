@@ -1,17 +1,17 @@
-import { TableData } from '@/types'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { FC } from 'react'
-import Container from './Container'
+import { TableData } from "@/types";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { FC } from "react";
+import Container from "./Container";
 
 interface Props {
-  title: string
-  headers: string[]
-  data: TableData | []
-  link: string
-  cellColors?: string[]
-  viewMore?: string
-  loadMore?: () => void
+  title: string;
+  headers: string[];
+  data: TableData | [];
+  link: string;
+  cellColors?: string[];
+  viewMore?: string;
+  loadMore?: () => void;
 }
 
 const Table: FC<Props> = ({
@@ -23,9 +23,9 @@ const Table: FC<Props> = ({
   viewMore,
   loadMore,
 }) => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const handleRowClick = (link: string) => router.push(link)
+  const handleRowClick = (link: string) => router.push(link);
 
   return (
     <Container title={title}>
@@ -48,9 +48,15 @@ const Table: FC<Props> = ({
                 {rowData.map((cellData, cellIndex) => (
                   <td
                     key={cellIndex}
-                    className={cellColors[cellIndex] ? 'text-lightaccent' : ''}
+                    className={cellColors[cellIndex] ? "text-lightaccent" : ""}
                   >
-                    {cellData}
+                    {cellData.toString().length > 40
+                      ? `${
+                          cellData.toString().slice(0, 8) +
+                          "..." +
+                          cellData.toString().slice(-8)
+                        }`
+                      : cellData}
                   </td>
                 ))}
               </tr>
@@ -64,8 +70,8 @@ const Table: FC<Props> = ({
           >
             View more {viewMore}
             <Image
-              src={'/icons/arrow.svg'}
-              alt={'arrow-icon'}
+              src={"/icons/arrow.svg"}
+              alt={"arrow-icon"}
               width={24}
               height={24}
             />
@@ -79,8 +85,8 @@ const Table: FC<Props> = ({
           >
             Load more
             <Image
-              src={'/icons/arrow.svg'}
-              alt={'arrow-icon'}
+              src={"/icons/arrow.svg"}
+              alt={"arrow-icon"}
               width={24}
               height={24}
             />
@@ -88,7 +94,7 @@ const Table: FC<Props> = ({
         )}
       </div>
     </Container>
-  )
-}
+  );
+};
 
-export default Table
+export default Table;
