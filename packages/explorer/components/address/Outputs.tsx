@@ -1,16 +1,16 @@
-import Link from 'next/link'
-import { FC } from 'react'
-import Subheading from '../common/Subheading'
+import Link from "next/link";
+import { FC } from "react";
+import Subheading from "../common/Subheading";
 
 interface Props {
-  title: string
-  outputs: string[] | string
+  title: string;
+  outputs: string[] | string;
 }
 
 const Outputs: FC<Props> = ({ title, outputs }) => {
   return (
     <div className="flex flex-col gap-2 w-full">
-      <Subheading title={`${title} ${Array.isArray(outputs) ? 's' : ''}`} />
+      <Subheading title={`${title}`} />
       <div className="flex flex-col gap-2">
         {Array.isArray(outputs) ? (
           outputs.map((output, index) => (
@@ -21,7 +21,7 @@ const Outputs: FC<Props> = ({ title, outputs }) => {
               defaultValue={output}
             />
           ))
-        ) : title !== 'Output' ? (
+        ) : title !== "Output" ? (
           <Link href={`/tx/${outputs}`}>
             <input
               className="w-full bg-background p-2 rounded-md"
@@ -38,7 +38,7 @@ const Outputs: FC<Props> = ({ title, outputs }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Outputs
+export default Outputs;

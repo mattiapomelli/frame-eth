@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
 
 const SubNav: FC = () => {
-  const navigations = ['Dashboard', 'Blocks', 'Transactions']
+  const navigations = ['Dashboard', 'Blocks', 'Transactions', 'Contracts']
   const router = useRouter()
   const currentPath = router.pathname.split('/')[1]
 
