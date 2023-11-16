@@ -47,6 +47,10 @@ const config: HardhatUserConfig = {
       url: "https://rpc.testnet.mantle.xyz",
       accounts,
     },
+    polygonZkEVMTestnet: {
+      url: `https://rpc.public.zkevm-test.net`,
+      accounts,
+    },
   },
   etherscan: {
     customChains: [
@@ -88,6 +92,14 @@ const config: HardhatUserConfig = {
           browserURL: "https://explorer.testnet.mantle.xyz",
         },
       },
+      {
+        network: "polygonZkEVMTestnet",
+        chainId: 1442,
+        urls: {
+          apiURL: "https://testnet-zkevm.polygonscan.com/api",
+          browserURL: "https://testnet-zkevm.polygonscan.com/",
+        },
+      },
     ],
     apiKey: {
       polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
@@ -95,6 +107,7 @@ const config: HardhatUserConfig = {
       gnosis: process.env.GNOSISSCAN_API_KEY || "",
       scrollSepolia: "abc",
       mantleTestnet: process.env.ETHERSCAN_API_KEY || "",
+      polygonZkEVMTestnet: process.env.ETHERSCAN_API_KEY || "",
     },
   },
   gasReporter: {

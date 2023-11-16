@@ -19,7 +19,10 @@ deploy-scroll:
 	npx hardhat deploy --network scrollSepolia --verify
 
 deploy-mantle: 
-	npx hardhat deploy --network scrollSepolia <address> <args>
+	npx hardhat deploy --network scrollSepolia --verify
+
+deploy-polygon-zk-evm: 
+	npx hardhat deploy --network polygonZkEVMTestnet --verify
 
 # -------------- VERIFICATION -------------- #
 
