@@ -24,6 +24,9 @@ deploy-mantle:
 deploy-polygon-zk-evm: 
 	npx hardhat deploy --network polygonZkEVMTestnet --verify
 
+deploy-base: 
+	npx hardhat deploy --network baseGoerli --verify
+
 # -------------- VERIFICATION -------------- #
 
 verify-scroll: 

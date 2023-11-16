@@ -36,8 +36,8 @@ const config: HardhatUserConfig = {
     },
     chiado: {
       url: "https://rpc.chiadochain.net",
-      gasPrice: 1000000000,
       accounts,
+      gasPrice: 1000000000,
     },
     scrollSepolia: {
       url: "https://sepolia-rpc.scroll.io",
@@ -50,6 +50,11 @@ const config: HardhatUserConfig = {
     polygonZkEVMTestnet: {
       url: `https://rpc.public.zkevm-test.net`,
       accounts,
+    },
+    baseGoerli: {
+      url: "https://goerli.base.org",
+      accounts,
+      gasPrice: 1000000000,
     },
   },
   etherscan: {
@@ -100,14 +105,23 @@ const config: HardhatUserConfig = {
           browserURL: "https://testnet-zkevm.polygonscan.com/",
         },
       },
+      {
+        network: "baseGoerli",
+        chainId: 84531,
+        urls: {
+          apiURL: "https://api-goerli.basescan.org/api",
+          browserURL: "https://goerli.basescan.org",
+        },
+      },
     ],
     apiKey: {
       polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
-      chiado: process.env.GNOSISSCAN_API_KEY || "",
-      gnosis: process.env.GNOSISSCAN_API_KEY || "",
-      scrollSepolia: "abc",
+      chiado: process.env.GNOSISSCAN_API_KEY || "", // doesn't work
+      gnosis: process.env.GNOSISSCAN_API_KEY || "", // doesn't work
+      scrollSepolia: "abc", // doesn't work
       mantleTestnet: process.env.ETHERSCAN_API_KEY || "",
-      polygonZkEVMTestnet: process.env.ETHERSCAN_API_KEY || "",
+      polygonZkEVMTestnet: process.env.ETHERSCAN_API_KEY || "", // doesn't work
+      baseGoerli: "PLACEHOLDER_STRING",
     },
   },
   gasReporter: {
