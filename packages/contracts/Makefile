@@ -27,6 +27,9 @@ deploy-polygon-zk-evm:
 deploy-base: 
 	npx hardhat deploy --network baseGoerli --verify
 
+deploy-linea: 
+	npx hardhat deploy --network lineaTestnet --verify
+
 # -------------- VERIFICATION -------------- #
 
 verify-scroll: 

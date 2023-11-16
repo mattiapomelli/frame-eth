@@ -56,6 +56,10 @@ const config: HardhatUserConfig = {
       accounts,
       gasPrice: 1000000000,
     },
+    lineaTestnet: {
+      url: "https://rpc.goerli.linea.build",
+      accounts,
+    },
   },
   etherscan: {
     customChains: [
@@ -113,6 +117,14 @@ const config: HardhatUserConfig = {
           browserURL: "https://goerli.basescan.org",
         },
       },
+      {
+        network: "lineaTestnet",
+        chainId: 59140,
+        urls: {
+          apiURL: "https://goerli.lineascan.build/api",
+          browserURL: "https://goerli.lineascan.build/",
+        },
+      },
     ],
     apiKey: {
       polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
@@ -121,7 +133,8 @@ const config: HardhatUserConfig = {
       scrollSepolia: "abc", // doesn't work
       mantleTestnet: process.env.ETHERSCAN_API_KEY || "",
       polygonZkEVMTestnet: process.env.ETHERSCAN_API_KEY || "", // doesn't work
-      baseGoerli: "PLACEHOLDER_STRING",
+      baseGoerli: "PLACEHOLDER_STRING", // doesn't work
+      lineaTestnet: process.env.LINEASCAN_API_KET || "",
     },
   },
   gasReporter: {
