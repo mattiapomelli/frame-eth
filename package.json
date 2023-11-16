@@ -6,7 +6,8 @@
   "workspaces": {
     "packages": [
       "packages/contracts",
-      "packages/web"
+      "packages/web",
+      "packages/explorer"
     ]
   },
   "scripts": {
@@ -29,6 +30,8 @@
     "start": "yarn workspace @fe/web start",
     "lint": "yarn workspace @fe/web lint",
     "vercel": "yarn workspace @fe/web vercel",
+
+    "explorer": "yarn workspace @fe/explorer dev --port 3001",
 
     "web": "yarn workspace @fe/web",
     "contracts": "yarn workspace @fe/contracts"
