@@ -15,7 +15,7 @@ export const save = async (
   address: string,
   abi: Abi
 ) => {
-  // Update ABI
+  // Update ABI in frontend and explorer
   const abiFile = path.join(
     __dirname,
     "..",
@@ -48,8 +48,8 @@ export const save = async (
 
   console.log(`💾 Contract abi has been saved to ${abiFile}`);
 
-  // Update address
-  const addressesFile = path.join(
+  // Update address in frontend
+  const addressesFileFrontend = path.join(
     __dirname,
     "..",
     "..",
@@ -60,7 +60,7 @@ export const save = async (
     "addresses.json"
   );
 
-  const file = fs.readFileSync(addressesFile).toString();
+  const file = fs.readFileSync(addressesFileFrontend).toString();
   const contractAddresses = JSON.parse(file);
 
   if (!contractAddresses[contractName]) {
@@ -69,7 +69,34 @@ export const save = async (
   contractAddresses[contractName][chainId] = address;
 
   fs.writeFileSync(
-    path.join(addressesFile),
+    path.join(addressesFileFrontend),
     JSON.stringify(contractAddresses, null, 2)
   );
+
+  // Update abi and address in explorer
+  if (chainId === 31337) {
+    const contractsFileExplorer = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "explorer",
+      "config",
+      "contracts.json"
+    );
+
+    const file = fs.readFileSync(contractsFileExplorer).toString();
+    const contractAddresses = JSON.parse(file);
+
+    if (!contractAddresses[contractName]) {
+      contractAddresses[contractName] = {};
+    }
+    contractAddresses[contractName].address = address;
+    contractAddresses[contractName].abi = abi;
+
+    fs.writeFileSync(
+      path.join(contractsFileExplorer),
+      JSON.stringify(contractAddresses, null, 2)
+    );
+  }
 };

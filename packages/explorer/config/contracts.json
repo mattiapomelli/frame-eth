@@ -1,0 +1,48 @@
+{
+  "Storage": {
+    "address": "0x58f7fc8d443507b9a14a0fe33330f07c85b474e9",
+    "abi": [
+      {
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "initialData",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "stateMutability": "nonpayable",
+        "type": "fallback"
+      },
+      {
+        "inputs": [],
+        "name": "getData",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "_data",
+            "type": "string"
+          }
+        ],
+        "name": "setData",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ]
+  }
+}
